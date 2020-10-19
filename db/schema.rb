@@ -27,11 +27,13 @@ ActiveRecord::Schema.define(version: 2020_10_19_134900) do
   end
 
   create_table "stores", force: :cascade do |t|
+    t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.string "name"
     t.string "address"
     t.string "google_place_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lonlat"], name: "index_stores_on_lonlat", using: :gist
   end
 
   add_foreign_key "ratings", "stores"
